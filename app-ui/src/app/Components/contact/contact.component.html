@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let contact of contacts">
-            <th scope="row">1</th>
+            <th scope="row">{{contact.id}}</th>
             <td>{{contact.firstname}}</td>
             <td>{{contact.lastname}}</td>
             <td>{{contact.email}}</td>
@@ -55,7 +55,7 @@
                     <small *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
                 </div>
             </div>
-            <button class="btn btn-success float-end" [disabled]="contactForm.get('email')?.invalid" type="submit">{{ editContactId ? 'Update' : 'Add' }} Contact</button>
+            <button class="btn btn-success float-end" [disabled]="contactForm.invalid" type="submit">{{ editContactId ? 'Update' : 'Add' }} Contact</button>
           </form>
       </div> 
       <div class="modal-footer"> 

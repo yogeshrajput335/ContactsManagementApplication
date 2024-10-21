@@ -35,16 +35,10 @@ export class ContactComponent implements OnInit {
           this.contacts = data;
       });
   }
-  newContact(){
-    console.log("Open dialog for new contact");
-  }
+  
   editContact(contact: Contact) {
     this.editContactId = contact.id;
-    this.contactForm.setValue({
-      firstname: contact.firstname,
-      lastname: contact.lastname,
-      email: contact.email,
-    });
+    this.contactForm.patchValue(contact);
     this.displayStyle = "block"; 
   }
   deleteContact(id:number){
@@ -56,6 +50,7 @@ export class ContactComponent implements OnInit {
   } 
   closePopup() { 
     this.displayStyle = "none"; 
+    this.contactForm.reset();
   } 
   openDeletePopup(contactId: number) { 
     this.deleteContactId = contactId;
@@ -65,31 +60,36 @@ export class ContactComponent implements OnInit {
     this.displayDeleteStyle = "none"; 
   } 
   updateContact(){
-    this.contacts.push(
-      {
-        id:1,
-        firstname:this.contactForm.value.firstname,
-        lastname:this.contactForm.value.lastname,
-        email:this.contactForm.value.email
-      })
-      this.displayStyle = "none"; 
+    if (this.contactForm.valid && this.editContactId) {
+      const updatedContact = { id: this.editContactId, ...this.contactForm.value };
+      this.contactService.updateContact(updatedContact).subscribe(() => {
+          this.loadContacts();
+          this.contactForm.reset();
+          this.editContactId = null;
+          this.displayStyle = "none"; 
+      });
+  }
+      
   }
   addContact(){
-    this.contacts.push(
-      {
-        id:1,
-        firstname:this.contactForm.value.firstname,
-        lastname:this.contactForm.value.lastname,
-        email:this.contactForm.value.email
-      })
-      this.displayStyle = "none"; 
+    if (this.contactForm.valid) {
+      this.contactService.addContact(this.contactForm.value).subscribe((data) => {
+          this.contacts.push(data);
+          this.contactForm.reset();
+          this.displayStyle = "none"; 
+      });
+    }
   }
   DeleteContact(){
     if(this.deleteContactId){
-      console.log("Contact selected");
+      this.contactService.deleteContact(this.deleteContactId).subscribe(() => {
+        this.loadContacts();
+        this.displayDeleteStyle = "none"; 
+    });
     }else {
       console.log("Contact not selected");
+      this.displayDeleteStyle = "none"; 
     }
-    this.displayDeleteStyle = "none"; 
+    
   }
 }
