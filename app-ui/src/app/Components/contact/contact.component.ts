@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Contact } from 'src/app/Models/Contact';
+import { ContactService } from 'src/app/Services/contact.service';
 
 @Component({
   selector: 'app-contact',
@@ -17,7 +18,7 @@ export class ContactComponent implements OnInit {
   editContactId: number | null = null;
   deleteContactId: number | null = null;
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder,private contactService: ContactService) { 
     this.contactForm = this.fb.group({ 
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -26,6 +27,13 @@ export class ContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadContacts();
+  }
+
+  loadContacts(): void {
+      this.contactService.getContacts().subscribe((data) => {
+          this.contacts = data;
+      });
   }
   newContact(){
     console.log("Open dialog for new contact");
