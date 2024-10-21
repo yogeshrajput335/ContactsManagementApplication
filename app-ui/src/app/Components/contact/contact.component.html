@@ -1,0 +1,89 @@
+<div class="container">
+    <h1>{{title}}</h1>
+    <button class="btn btn-success" (click)="openPopup()">New</button>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contacts">
+            <th scope="row">1</th>
+            <td>{{contact.firstname}}</td>
+            <td>{{contact.lastname}}</td>
+            <td>{{contact.email}}</td>
+            <td><button class="btn btn-primary" (click)="editContact(contact)">Edit</button></td>
+            <td><button class="btn btn-danger" (click)="openDeletePopup(contact.id)">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div class="modal" tabindex="-1" [ngStyle]="{'display':displayStyle}"> 
+  <div class="modal-dialog" role="document"> 
+    <div class="modal-content"> 
+      <div class="modal-header"> 
+        <h4 class="modal-title">{{ editContactId ? 'Update' : 'Add' }} Contact Form</h4> 
+      </div> 
+      <div class="modal-body"> 
+        <form [formGroup]="contactForm" (ngSubmit)="editContactId ? updateContact() : addContact()">
+            <div class="form-group mb-2">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" id="firstname" placeholder="Enter first name" formControlName="firstname">
+                <div *ngIf="contactForm.get('firstname')?.invalid && (contactForm.get('firstname')?.touched || contactForm.get('firstname')?.dirty)" class="text-danger">
+                    <small *ngIf="contactForm.get('firstname')?.errors?.['required']">First Name is required.</small>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="lastname">Last Name</label>
+                <input type="text" class="form-control" id="lastname" placeholder="Enter Last name" formControlName="lastname">
+                <div *ngIf="contactForm.get('lastname')?.invalid && (contactForm.get('lastname')?.touched || contactForm.get('lastname')?.dirty)" class="text-danger">
+                    <small *ngIf="contactForm.get('lastname')?.errors?.['required']">Last Name is required.</small>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="firstname" placeholder="Enter email" formControlName="email">
+                <div *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)" class="text-danger">
+                    <small *ngIf="contactForm.get('email')?.errors?.['required']">Email is required.</small>
+                    <small *ngIf="contactForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
+                </div>
+            </div>
+            <button class="btn btn-success float-end" [disabled]="contactForm.get('email')?.invalid" type="submit">{{ editContactId ? 'Update' : 'Add' }} Contact</button>
+          </form>
+      </div> 
+      <div class="modal-footer"> 
+        <button type="button" class="btn btn-danger" (click)="closePopup()"> 
+            Close 
+        </button> 
+      </div> 
+    </div> 
+  </div> 
+</div>
+
+<div class="modal" tabindex="-1" [ngStyle]="{'display':displayDeleteStyle}"> 
+    <div class="modal-dialog" role="document"> 
+      <div class="modal-content"> 
+        <div class="modal-header"> 
+          <h4 class="modal-title">{{ editContactId ? 'Update' : 'Add' }} Contact Form</h4> 
+        </div> 
+        <div class="modal-body"> 
+          Do you want to delete this contact?
+        </div> 
+        <div class="modal-footer"> 
+            <button type="button" class="btn btn-success" (click)="DeleteContact()"> 
+                Delete 
+            </button> 
+            <button type="button" class="btn btn-danger" (click)="closeDeletePopup()"> 
+                Close 
+            </button> 
+        </div> 
+      </div> 
+    </div> 
+  </div>
