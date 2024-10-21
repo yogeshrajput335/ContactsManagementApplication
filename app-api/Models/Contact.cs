@@ -7,10 +7,10 @@ namespace ContactsApi.Models
         public int Id { get; set; } 
 
         [Required]
-        public string FirstName { get; set; }
+        public string Firstname { get; set; }
 
         [Required]
-        public string LastName { get; set; }
+        public string Lastname { get; set; }
 
         [Required]
         [EmailAddress]

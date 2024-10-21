@@ -1,8 +1,8 @@
 [
     {
         "Id": 1,
-        "FirstName":"Yogesh",
-        "LastName":"Rajput",
+        "Firstname":"Yogesh",
+        "Lastname":"Rajput",
         "Email":"yogeshrajput335@gmail.com"
     }
 ]
