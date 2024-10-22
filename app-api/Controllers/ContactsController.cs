@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using ContactsApi.Models;
 using ContactsApi.Repositories;
 
@@ -10,11 +8,11 @@ namespace ContactsApi.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly ContactsRepository _repository;
+        private readonly IContactsRepository _repository;
 
-        public ContactsController()
+        public ContactsController(IContactsRepository repository)
         {
-            _repository = new ContactsRepository();
+            _repository = repository;
         }
 
         // GET: api/contacts

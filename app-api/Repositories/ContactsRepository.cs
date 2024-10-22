@@ -3,7 +3,7 @@ using ContactsApi.Models;
 
 namespace ContactsApi.Repositories
 {
-    public class ContactsRepository
+    public class ContactsRepository : IContactsRepository
     {
         private const string FilePath = "Data/contacts.json";
 
